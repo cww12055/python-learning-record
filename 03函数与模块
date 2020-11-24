@@ -1,1 +1,61 @@
+"""
+实现计算求最大公约数和最小公倍数的函数
+"""
+def gcd(x,y):#  求最大公约数
+    (x,y) = (y,x) if x>y else (x,y)
+    for factor in range(x,0,-1):
+        if x % factor ==0 and y % factor ==0:
+            return factor
 
+def lcm(x,y):#求最小公倍数
+    return x*y // gcd(x,y)
+
+"""
+实现判断一个数是不是回文数的函数
+顾名思义就是正反都可以读的数字比如11，121，131，141，151
+"""
+def is_palindrome(num):
+    temp =num
+    total =0
+    while temp>0:
+        total =total*10+temp%10
+        temp //=10
+    return total ==num
+
+"""
+实现判断一个数是不是素数的函数
+"""
+import math
+def is_prime(num):
+    for factor in range(2,int(math.sqrt(num))+1):
+        if num % factor ==0:
+            return False
+    return True if num !=1 else False
+
+
+"""
+写一个程序判断输入的正整数是不是回文素数
+"""
+# __name__是Python中一个隐含的变量它代表了模块的名字
+# 只有被Python解释器直接执行的模块的名字才是__main__
+if __name__ == '__main__':
+    num=int(input('请输入正整数：'))
+    if is_palindrome(num) and is_prime(num):
+        print('%d是回文素数' % num)
+    else:
+        print('都不是！！！')
+
+"""
+我们在不同的模块中可以有同名的函数,可以通过模块管理函数
+要分清局部作用域，全局作用域的区别，局部变量和全局变量
+要在局部作用域修改全局变量global声明一下，开发的时候尽量少用全局变量，
+全局变量的作用域和影响过于广泛，会发生意料之外的修改和使用
+"""
+"""
+接下来我们的代码按照下面的格式进行书写：
+def main():
+    #Todo:add your code here
+    pass
+if __name__=='__main__':
+    main()
+"""
