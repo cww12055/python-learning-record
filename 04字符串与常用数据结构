@@ -1,1 +1,114 @@
+"""
+字符串相关知识：字符串类型：结构化的，非标量类型
+1.\代表转义，如要保留原格式用r加以说明
+2.in 和 not in 来判断一个字符串是否包含另一个字符串
+3.可以用[起始索引:结束索引:步长]
+"""
+"""
+str1='hello,world!'
+print(len(str1)) 内置函数len计算字符串的长度
+print(str1.capitalize())  字符串首字母大写的拷贝
+print(str1.title())   字符串每个单词首字母大写的拷贝
+print(str1.upper())   字符串变大写的拷贝
+#字符串中查找子串所在位置，方法一
+print(str1.find('or'))
+print(str1.find('shit'))    找不到会报错
+#字符串中查找子串所在位置，方法二
+print(str1.index('or'))
+print(str1.index('shit'))    找不到会报错
+字符串开始与结束  str1.startswith()   str1.endswith()
+#将字符串以指定的宽度居中并在两侧填充指定的字符
+print(str1.center(50, '*'))   *******************hello,world!*******************
+#将字符串以指定的宽度靠右放置左侧填充指定的字符
+print(str1.rjust(50, ' '))                                          hello,world!
+str2='abc123456'
+print(str2.isdigit())    #检查字符串是否由数字组成
+print(str2.isalpha())    #检查字符串是否以字母构成
+print(str2.isalnum())    #检查字符串是否以数字字母构成
+str3 = '  jackfrued@126.com '
+print(str3.strip())      #获得字符串修剪左右两侧空格之后的拷贝
+"""
+
+
+"""
+列表相关知识点：     列类型：结构化的，非标量类型
+"""
+"""
+1.列表切片同字符串
+2.enumerate函数处理列表后再遍历可以同时获得元素索引和值
+for index,elem in enumerate(list1):
+    print(index,elem)
+3.列表添加和移除元素
+append(num)   insert(索引,num)
+合并两个列表  可以用 +  也可以用extend()
+4.删除
+remove（num）   pop（索引）    清空列表 clear()
+5.排序
+sorted函数返回列表排序后的拷贝，不会修改传入的列表
+sorted(list,key=len,reverse=True)
+"""
+
+
+"""
+生成式和生成器
+例如：f = [x for x in range(1, 10)]
+"""
+"""
+这里有一个非常值得探讨的问题，我们已经有了列表这种数据结构，为什么还需要元组这样的类型呢？
+元组中的元素是无法修改的，
+1.事实上我们在项目中尤其是多线程环境（后面会讲到）中可能更喜欢使用的是那些不变对象
+（一方面因为对象状态不能修改，所以可以避免由此引起的不必要的程序错误，
+简单的说就是一个不变的对象要比可变的对象更加容易维护；
+另一方面因为没有任何一个线程能够修改不变对象的内部状态，一个不变对象自动就是线程安全的，
+这样就可以省掉处理同步化的开销。一个不变对象可以方便的被共享访问）。
+所以结论就是：如果不需要对元素进行添加、删除、修改的时候，可以考虑使用元组，
+当然如果一个方法要返回多个值，使用元组也是不错的选择。
+2.元组在创建时间和占用的空间上面都优于列表。
+我们可以使用sys模块的getsizeof函数来检查存储同样的元素的元组和列表各自占用了多少内存空间，这个很容易做到。
+"""
+
+"""
+集合
+1.添加add  update 
+删除 discard  remove  pop
+2.& | -
+"""
+
+"""
+字典
+"""
+# 创建字典的字面量语法
+scores = {'骆昊': 95, '白元芳': 78, '狄仁杰': 82}
+print(scores)
+# 创建字典的构造器语法
+items1 = dict(one=1, two=2, three=3, four=4)
+# 通过zip函数将两个序列压成字典
+items2 = dict(zip(['a', 'b', 'c'], '123'))
+# 创建字典的推导式语法
+items3 = {num: num ** 2 for num in range(1, 10)}
+print(items1, items2, items3)
+# 通过键可以获取字典中对应的值
+print(scores['骆昊'])
+print(scores['狄仁杰'])
+# 对字典中所有键值对进行遍历
+for key in scores:
+    print(f'{key}: {scores[key]}')
+# 更新字典中的元素
+scores['白元芳'] = 65
+scores['诸葛王朗'] = 71
+scores.update(冷面=67, 方启鹤=85)
+print(scores)
+if '武则天' in scores:
+    print(scores['武则天'])
+print(scores.get('武则天'))
+# get方法也是通过键获取对应的值但是可以设置默认值
+print(scores.get('武则天', 60))
+# 删除字典中的元素
+print(scores.popitem())
+print(scores.popitem())
+print(scores.pop('骆昊', 100))
+# 清空字典
+scores.clear()
+print(scores)
+
 
