@@ -1,0 +1,135 @@
+"""文件和异常"""
+
+########读取文本文件
+
+"""
+def main():
+    try:
+        with open('FIB聚焦离子束（Focused Ion Beam）.txt', 'r', encoding='utf8') as f:
+            print(f.read())
+    except FileExistsError:
+        print('文件不存在！！！')
+    except FileNotFoundError:
+        print('无法打开指定的文件')
+    except LookupError:
+        print('指定了未知的编码')
+    except UnicodeDecodeError:
+        print('读取文件时解码错误！！！')
+
+
+if __name__ == '__main__':
+    main()
+"""
+"""
+如何将1-9999之间的素数分别写入三个文件中（1-99之间的素数保存在a.txt中，
+100-999之间的素数保存在b.txt中，1000-9999之间的素数保存在c.txt中
+"""
+from math import sqrt
+
+
+def is_prime(n):
+    """判断素数的函数"""
+    assert n > 0
+    for factor in range(2, int(sqrt(n)) + 1):
+        if n % factor == 0:
+            return False
+    return True if n != 1 else False
+
+def main():
+    filenames=('a.txt','b.txt','c.txt')
+    fs_list=[]
+    try:
+        for filename in filenames:
+            fs_list.append(open(filename,'w',encoding='utf8'))
+        for number in range(1,10000):
+            if is_prime(number):
+                if number <100:
+                    fs_list[0].write(str(number)+'\n')
+                elif number <1000:
+                    fs_list[1].write(str(number)+'\n')
+                else:
+                    fs_list[2].write(str(number)+'\n')
+    except IOError as ex:     #打开文件出错
+        print(ex)
+        print('写文件时发生错误！')
+    finally:
+        for fs in fs_list:
+            fs.close()
+    print('操作完成！')
+
+if __name__ == '__main__':
+    main()
+
+##################读写二进制文件
+def main():
+    try:
+        with open('ball.jpg','rb') as fs1:
+            data =fs1.read()
+            print(type(data))
+        with open('5add50fb2ff3b.jpg','wb') as fs2:
+            fs2.write(data)
+    except FileNotFoundError as e:
+        print('指定的文件无法打开')
+    except IOError as e:
+        print('读写文件时出现错误.')
+    print('程序执行结束.')
+
+if __name__ == '__main__':
+    main()
+
+##################读取JSON文件
+"""
+JSON数据类型和Python数据类型的对应关系表
+        Python                          JSON
+        dict                           object
+        list,tuple                      array
+        str                              string
+        int,float                        number
+        True/False                       true/false
+        None                              null
+"""
+
+"""示例：我们使用python的json模块就可以将字典或列表以JSON格式保存到文件中"""
+import json
+
+def main():
+    mydict={
+        'name':'大宝',
+        'age':38,
+        'qq':7862469676823,
+        'friends':['王大锤','白元芳'],
+        'cars':[
+            {'brand':'BYD','max_speed':180},
+            {'brand':'Audi','max_spedd':280},
+            {'brand':'Benz','max_spend':320}
+        ]
+    }
+    try:
+        with open('data.json','w',encoding='utf8') as fs:
+            json.dump(mydict,fs)
+    except IOError as e:
+        print(e)
+    print('保存数据完成！')
+
+if __name__ == '__main__':
+    main()
+
+"""
+json模块有四个比较重要的函数：
+dump：将python对象按照JSON格式序列化到文件中
+dumps：将python对象处理成JSON格式的字符串
+load：将文件中的JSON数据反序列化成对象
+loads：将字符串的内容反序列化成Python对象
+具体参照上面python和json数据对应关系
+"""
+
+import requests
+import json
+
+def main():
+    resp=requests.get('http://api.tianapi.com/txapi/worldtime/index?key=APIKEY&city=上海')
+    data_model=json.loads(resp.text)
+    print(data_model)
+
+if __name__ == '__main__':
+    main()
