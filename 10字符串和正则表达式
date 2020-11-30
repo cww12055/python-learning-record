@@ -1,0 +1,107 @@
+"""
+.  匹配任意字符
+\w   匹配字母/数字/下划线        \W    匹配非 字母/数字/下划线
+\s  匹配空白字符（包括\r,\n,\t等）   \S   匹配匹配非空白字符
+\d  匹配数字                    \D      匹配非数字
+\b  匹配单词的边界                \B     匹配非单词边界
+^   匹配字符串的开始
+$   匹配字符串的结束
+[]  匹配来自字符集的任意单一字符          [^]   匹配不在字符集中的任意单一字符
+*   匹配0次或多次        +  匹配1次或多次            ？  匹配0次或1次
+{M,N}     匹配至少M次只多N次
+|     或者
+(?=exp)    匹配exp前面的位置     (?<=exp)    匹配exp后面的位置
+（?!exp）匹配后面不是exp的位置      (?<!exp)    匹配前面不是exp的位置
+
+
+"""
+"""
+ compile()         编译正则表达式返回正则表达式对象
+ match(pattern,string,flag=0)    用正则匹配字符串，成功返回匹配对象，否则返回None
+ fullmatch()    match的完全匹配
+ search()     第一次出现
+ split()       拆分字符串，返回列表
+ sub()         替换
+ findall()      返回列表
+ finditer()     返回迭代器
+ re。I/re.IGNORECASE   忽略大小写匹配标记
+ re.M/re.MULTILINE     多行匹配标记
+"""
+
+"""
+例子1
+验证输入用户名和QQ号是否有效并给出对应的提示信息
+要求：用户名必须由字母、数字或下划线构成且长度在6~20个字符之间，QQ号是5~12的数字且首位不能为0 
+ """
+
+import re
+
+
+def main():
+    username = input('请输入用户名：')
+    qq = input('请输入QQ号: ')
+    m1 = re.match(r'^[0-9a-zA-Z_]{6,20}', username)
+    if not m1:
+        print('请输入有效的用户名。')
+    m2=re.match(r'^[1-9]\d{4,11}$',qq)
+    if not m2:
+        print('请输入有效的QQ号.')
+    if m1 and m2:
+        print('你输入的信息是有效的！')
+
+if __name__ == '__main__':
+    main()
+
+
+"""例子2：从一段文字中提取出国内手机号码。"""
+import re
+def main():
+    pattern=re.compile(r'(?<=\D)1[34578]\d{9}(?=\D)')
+    sentence='''
+    重要的事情说8130123456789遍，我的手机号是13512346789这个靓号，
+    不是15600998765，也是110或119，王大锤的手机号才是15600998765。
+    '''
+    #查找所有匹配并保存到一个列表中
+    mylist=re.findall(pattern,sentence)
+    print(mylist)
+    print('-----------------------------')
+    for temp in pattern.finditer(sentence):
+        print(temp.group())   #提出分组截获的内容
+    print('-----------------------------')
+    m=pattern.search(sentence)
+    print(m)
+    while m:
+        print(m.group())
+        m=pattern.search(sentence,m.end())
+        #end() 方法结束当前链条中的最近的筛选操作，并将匹配元素集还原为之前的状态
+
+if __name__ == '__main__':
+    main()
+
+"""
+例子3：替换字符串中的不良内容
+"""
+
+import re
+def main():
+    words='你丫是傻叉吗? 我操你大爷的. Fuck you.'
+    clear_word=re.sub('[操肏艹]|fuck|shit|傻[比屄逼叉缺吊屌]|煞笔','*',words,flags=re.I)
+    print(clear_word)  #你丫是*吗? 我*你大爷的. * you.
+
+if __name__ == '__main__':
+    main()
+
+"""
+例子4：拆分长字符串
+"""
+
+import re
+def main():
+    poem='窗前明月光，疑是地上霜。举头望明月，低头思故乡。'
+    sentence_list=re.split(r'[，。,.]',poem)
+    while '' in sentence_list:
+        sentence_list.remove('')
+    print(sentence_list)  #['窗前明月光', '疑是地上霜', '举头望明月', '低头思故乡']
+
+if __name__ == '__main__':
+    main()
